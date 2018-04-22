@@ -10,6 +10,7 @@
   "author": "ipeters",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^4.11.1",
     "@types/node": "^8.0.31",
     "async": "^2.1.2",
     "body-parser": "^1.18.2",

@@ -4,17 +4,40 @@ import service  from "./middlewares/server";
 import {createConnection} from "typeorm";
 import router from "./routers/routes"; // importa el archivo routes.ts, para poder ocupar las rutas del proyecto
 import config from "./config/main"; // importa arcvhio main.ts, el cual debe tener todas las propiedaeds que serán propias de configuracion, conexion string, puertos, folder, credenciales, etc
-
+import * as Entities from "./models/Index";
 
 // init express (WebServer)
 const app = express(); // se crea una variable que contega a express, para poder implementar el web server
 
 const  cnx = "default"; /// 
-createConnection( cnx ).then(async connection => { 
-    await console.log("conexion a mysql exitosa" ); // agrega una conneccion a mysql por medio de typeorm
- }).catch(error => {
-    console.log(" Error en conexion " + error);
-});  
+createConnection({
+    type: "mysql",
+    host: "localhost",
+    port: 3306,
+    username: "root",
+    password: "",
+    database: "apipiticlin",
+    entities: [
+        Entities.coleccion,
+        Entities.usuario,
+        Entities.favoritocoleccion,
+        Entities.item,
+        Entities.favoritomoneda,
+        Entities.logitem,
+        Entities.lotesubasta,
+        Entities.amistad,
+        Entities.favoritosubasta,
+        Entities.loteventa,
+        Entities.monedaimagen,
+        Entities.puja,
+        Entities.venta,
+        Entities.subasta
+    ],
+    synchronize: true,
+    logging: false
+}).then(connection => {
+    // here you can start to work with your entities
+}).catch(error => console.log(error)); 
  
 
 service( app );
