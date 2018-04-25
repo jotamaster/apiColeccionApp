@@ -1,12 +1,12 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
-import {subasta} from "./subasta";
+import {usuario} from "./usuario";
 import {item} from "./item";
 
 
-@Entity("lotesubasta")
-@Index("fk_lotesubasta_subasta1_idx",["IdSubasta",])
-@Index("fk_lotesubasta_item1_idx",["IdItem",])
-export class lotesubasta {
+@Entity("favoritoitem")
+@Index("fk_favoritoitem_usuario1_idx",["IdUsuario",])
+@Index("fk_favoritoitem_item1_idx",["IdItem",])
+export class favoritoitem {
 
     @Column("int",{ 
         generated:true,
@@ -18,13 +18,13 @@ export class lotesubasta {
         
 
    
-    @ManyToOne(type=>subasta, IdSubasta=>IdSubasta.lotesubastas)
-    @JoinColumn({ name:'IdSubasta'})
-    IdSubasta:subasta;
+    @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.favoritoitems)
+    @JoinColumn({ name:'IdUsuario'})
+    IdUsuario:usuario;
     
 
    
-    @ManyToOne(type=>item, IdItem=>IdItem.lotesubastas)
+    @ManyToOne(type=>item, IdItem=>IdItem.favoritoitems)
     @JoinColumn({ name:'IdItem'})
     IdItem:item;
     

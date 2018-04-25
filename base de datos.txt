@@ -1,0 +1,365 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema dbcolec
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema dbcolec
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `dbcolec` DEFAULT CHARACTER SET utf8 ;
+USE `dbcolec` ;
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`usuario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`usuario` (
+  `Id` INT(11) NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL,
+  `Apellido` VARCHAR(45) NULL,
+  `Clave` VARCHAR(45) NULL,
+  `Email` VARCHAR(45) NULL,
+  `Telefono` INT(11) NULL,
+  `Ciudad` VARCHAR(45) NULL,
+  `InicioHobby` DATE NULL,
+  `TipoColeccionista` VARCHAR(45) NULL,
+  PRIMARY KEY (`Id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`coleccion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`coleccion` (
+  `Id` INT(11) NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL,
+  `Detalle` VARCHAR(45) NULL,
+  `Fotos` VARCHAR(45) NULL,
+  `FechaCreacion` DATE NULL,
+  `Tipo` VARCHAR(45) NULL,
+  `IdUsuario` INT(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_coleccion_usuario_idx` (`IdUsuario` ASC),
+  CONSTRAINT `fk_coleccion_usuario`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`favoritocoleccion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`favoritocoleccion` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdUsuario` INT(11) NOT NULL,
+  `IdColeccion` INT(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_favoritocoleccion_usuario1_idx` (`IdUsuario` ASC),
+  INDEX `fk_favoritocoleccion_coleccion1_idx` (`IdColeccion` ASC),
+  CONSTRAINT `fk_favoritocoleccion_usuario1`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_favoritocoleccion_coleccion1`
+    FOREIGN KEY (`IdColeccion`)
+    REFERENCES `dbcolec`.`coleccion` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`amistad`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`amistad` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdUsuario` INT(11) NOT NULL,
+  `IdAmigo` INT(11) NOT NULL,
+  `Estado` INT(11) NULL,
+  `Inicio` DATE NULL,
+  `Termino` DATE NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_amistad_usuario1_idx` (`IdUsuario` ASC),
+  INDEX `fk_amistad_usuario2_idx` (`IdAmigo` ASC),
+  CONSTRAINT `fk_amistad_usuario1`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_amistad_usuario2`
+    FOREIGN KEY (`IdAmigo`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`item` (
+  `Id` INT(11) NOT NULL AUTO_INCREMENT,
+  `IdColeccion` INT(11) NOT NULL,
+  `Nombre` VARCHAR(45) NULL,
+  `itemcol` VARCHAR(45) NULL,
+  `Anio` INT(11) NULL,
+  `Ceca` VARCHAR(45) NULL,
+  `Nacionalidad` VARCHAR(45) NULL,
+  `Origen` VARCHAR(45) NULL,
+  `TipoMaterial` VARCHAR(45) NULL,
+  `Material` DECIMAL(10,0) NULL,
+  `ValorNominal` INT(11) NULL,
+  `TipoNominal` VARCHAR(45) NULL,
+  `Diametro` VARCHAR(45) NULL,
+  `Peso` DECIMAL(10,0) NULL,
+  `Leyenda` VARCHAR(80) NULL,
+  `TemaAnverso` VARCHAR(100) NULL,
+  `DescripcionCanto` VARCHAR(45) NULL,
+  `Espesor` DECIMAL(3,0) NULL,
+  `Tiraje` INT(11) NULL,
+  `Giro` INT(11) NULL,
+  `Valorizacion` INT(11) NULL,
+  `Km` INT(11) NULL,
+  `Descripcion` VARCHAR(250) NULL,
+  `DescripcionGrabado` VARCHAR(45) NULL,
+  `SobreFecha` INT(11) NULL,
+  `Estado` VARCHAR(3) NULL,
+  `PorsentajeEstado` DECIMAL(5,0) NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_item_coleccion1_idx` (`IdColeccion` ASC),
+  CONSTRAINT `fk_item_coleccion1`
+    FOREIGN KEY (`IdColeccion`)
+    REFERENCES `dbcolec`.`coleccion` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`itemimagen`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`itemimagen` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdItem` INT(11) NOT NULL,
+  `Nombre` VARCHAR(45) NULL,
+  `Ruta` VARCHAR(100) NULL,
+  `Fecha` DATE NULL,
+  `Descripcion` VARCHAR(100) NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_monedaimagen_item1_idx` (`IdItem` ASC),
+  CONSTRAINT `fk_monedaimagen_item1`
+    FOREIGN KEY (`IdItem`)
+    REFERENCES `dbcolec`.`item` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`logitem`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`logitem` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdItem` INT(11) NOT NULL,
+  `IdUsuario` INT(11) NOT NULL,
+  `ValorActual` VARCHAR(45) NULL,
+  `ValorAnterior` VARCHAR(45) NULL,
+  `Fecha` TIMESTAMP NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_logitem_usuario1_idx` (`IdUsuario` ASC),
+  INDEX `fk_logitem_item1_idx` (`IdItem` ASC),
+  CONSTRAINT `fk_logitem_usuario1`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_logitem_item1`
+    FOREIGN KEY (`IdItem`)
+    REFERENCES `dbcolec`.`item` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`favoritoitem`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`favoritoitem` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdUsuario` INT(11) NOT NULL,
+  `IdItem` INT(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_favoritoitem_usuario1_idx` (`IdUsuario` ASC),
+  INDEX `fk_favoritoitem_item1_idx` (`IdItem` ASC),
+  CONSTRAINT `fk_favoritoitem_usuario1`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_favoritoitem_item1`
+    FOREIGN KEY (`IdItem`)
+    REFERENCES `dbcolec`.`item` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`venta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`venta` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdComprador` INT(11) NOT NULL,
+  `IdVendedor` INT(11) NOT NULL,
+  `Nombre` VARCHAR(45) NULL,
+  `ValorVenta` INT(11) NULL,
+  `Descripcion` VARCHAR(45) NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_venta_usuario1_idx` (`IdComprador` ASC),
+  INDEX `fk_venta_usuario2_idx` (`IdVendedor` ASC),
+  CONSTRAINT `fk_venta_usuario1`
+    FOREIGN KEY (`IdComprador`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_venta_usuario2`
+    FOREIGN KEY (`IdVendedor`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`loteventa`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`loteventa` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdVenta` INT NOT NULL,
+  `item_Id` INT(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_loteventa_venta1_idx` (`IdVenta` ASC),
+  INDEX `fk_loteventa_item1_idx` (`item_Id` ASC),
+  CONSTRAINT `fk_loteventa_venta1`
+    FOREIGN KEY (`IdVenta`)
+    REFERENCES `dbcolec`.`venta` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_loteventa_item1`
+    FOREIGN KEY (`item_Id`)
+    REFERENCES `dbcolec`.`item` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`subasta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`subasta` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdComprador` INT(11) NOT NULL,
+  `Idvendedor` INT(11) NOT NULL,
+  `Nombre` VARCHAR(45) NULL,
+  `HoraInicio` DATE NULL,
+  `HoraTermino` DATE NULL,
+  `MinimoPuja` INT(11) NULL,
+  `MontoActual` INT(11) NULL,
+  `Descripcion` VARCHAR(100) NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_subasta_usuario1_idx` (`IdComprador` ASC),
+  INDEX `fk_subasta_usuario2_idx` (`Idvendedor` ASC),
+  CONSTRAINT `fk_subasta_usuario1`
+    FOREIGN KEY (`IdComprador`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_subasta_usuario2`
+    FOREIGN KEY (`Idvendedor`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`favoritosubasta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`favoritosubasta` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdUsuario` INT(11) NOT NULL,
+  `IdSubasta` INT NOT NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_favoritosubasta_usuario1_idx` (`IdUsuario` ASC),
+  INDEX `fk_favoritosubasta_subasta1_idx` (`IdSubasta` ASC),
+  CONSTRAINT `fk_favoritosubasta_usuario1`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_favoritosubasta_subasta1`
+    FOREIGN KEY (`IdSubasta`)
+    REFERENCES `dbcolec`.`subasta` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`lotesubasta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`lotesubasta` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdSubasta` INT NOT NULL,
+  `IdItem` INT(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_lotesubasta_subasta1_idx` (`IdSubasta` ASC),
+  INDEX `fk_lotesubasta_item1_idx` (`IdItem` ASC),
+  CONSTRAINT `fk_lotesubasta_subasta1`
+    FOREIGN KEY (`IdSubasta`)
+    REFERENCES `dbcolec`.`subasta` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lotesubasta_item1`
+    FOREIGN KEY (`IdItem`)
+    REFERENCES `dbcolec`.`item` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dbcolec`.`puja`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbcolec`.`puja` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `IdComprador` INT(11) NOT NULL,
+  `IdSubasta` INT NOT NULL,
+  `Monto` INT(11) NULL,
+  `FechaHora` TIMESTAMP NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_puja_subasta1_idx` (`IdSubasta` ASC),
+  INDEX `fk_puja_usuario1_idx` (`IdComprador` ASC),
+  CONSTRAINT `fk_puja_subasta1`
+    FOREIGN KEY (`IdSubasta`)
+    REFERENCES `dbcolec`.`subasta` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_puja_usuario1`
+    FOREIGN KEY (`IdComprador`)
+    REFERENCES `dbcolec`.`usuario` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

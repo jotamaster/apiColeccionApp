@@ -6,11 +6,15 @@
     "port": 3306,
     "username": "root",
     "password": "",
-    "database": "apipiticlin",
+    "database": "dbcolec",
     "synchronize": false,
     "entities": [
-      "entities/*.js"
-    ]
+      "dist/models/*.js"
+    ],
+    
+  "cli": {
+    "entitiesDir": "models/*.js"
+  }
   }
 ]
 

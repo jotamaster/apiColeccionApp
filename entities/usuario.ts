@@ -2,7 +2,7 @@ import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, Man
 import {amistad} from "./amistad";
 import {coleccion} from "./coleccion";
 import {favoritocoleccion} from "./favoritocoleccion";
-import {favoritomoneda} from "./favoritomoneda";
+import {favoritoitem} from "./favoritoitem";
 import {favoritosubasta} from "./favoritosubasta";
 import {logitem} from "./logitem";
 import {puja} from "./puja";
@@ -105,8 +105,8 @@ export class usuario {
     
 
    
-    @OneToMany(type=>favoritomoneda, favoritomonedas=>favoritomonedas.Idusuario)
-    favoritomonedas:favoritomoneda[];
+    @OneToMany(type=>favoritoitem, favoritoitems=>favoritoitems.IdUsuario)
+    favoritoitems:favoritoitem[];
     
 
    
@@ -125,12 +125,12 @@ export class usuario {
     
 
    
-    @OneToMany(type=>subasta, subastas=>subastas.IdVendedor)
+    @OneToMany(type=>subasta, subastas=>subastas.IdComprador)
     subastas:subasta[];
     
 
    
-    @OneToMany(type=>subasta, subastas2=>subastas2.IdComprador)
+    @OneToMany(type=>subasta, subastas2=>subastas2.Idvendedor)
     subastas2:subasta[];
     
 

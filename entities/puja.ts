@@ -4,11 +4,12 @@ import {subasta} from "./subasta";
 
 
 @Entity("puja")
-@Index("fk_Pujas_USUARIO1_idx",["IdComprador",])
-@Index("fk_Pujas_SUBASTA1_idx",["IdSubasta",])
+@Index("fk_puja_subasta1_idx",["IdSubasta",])
+@Index("fk_puja_usuario1_idx",["IdComprador",])
 export class puja {
 
     @Column("int",{ 
+        generated:true,
         nullable:false,
         primary:true,
         name:"Id"
@@ -35,7 +36,7 @@ export class puja {
     Monto:number;
         
 
-    @Column("datetime",{ 
+    @Column("timestamp",{ 
         nullable:true,
         name:"FechaHora"
         })

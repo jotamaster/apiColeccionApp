@@ -2,11 +2,12 @@ import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, Man
 import {item} from "./item";
 
 
-@Entity("monedaimagen")
-@Index("fk_MonedaImagen_MONEDAS1_idx",["IdMoneda",])
-export class monedaimagen {
+@Entity("itemimagen")
+@Index("fk_monedaimagen_item1_idx",["IdItem",])
+export class itemimagen {
 
     @Column("int",{ 
+        generated:true,
         nullable:false,
         primary:true,
         name:"Id"
@@ -15,9 +16,9 @@ export class monedaimagen {
         
 
    
-    @ManyToOne(type=>item, IdMoneda=>IdMoneda.monedaimagens)
-    @JoinColumn({ name:'IdMoneda'})
-    IdMoneda:item;
+    @ManyToOne(type=>item, IdItem=>IdItem.itemimagens)
+    @JoinColumn({ name:'IdItem'})
+    IdItem:item;
     
 
     @Column("varchar",{ 
@@ -30,7 +31,7 @@ export class monedaimagen {
 
     @Column("varchar",{ 
         nullable:true,
-        length:150,
+        length:100,
         name:"Ruta"
         })
     Ruta:string;

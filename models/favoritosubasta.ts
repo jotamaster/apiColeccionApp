@@ -4,8 +4,8 @@ import {subasta} from "./subasta";
 
 
 @Entity("favoritosubasta")
-@Index("fk_FavoritoSubasta_Usuario1_idx",["IdUsuario",])
-@Index("fk_FavoritoSubasta_Subasta1_idx",["IdSubasta",])
+@Index("fk_favoritosubasta_usuario1_idx",["IdUsuario",])
+@Index("fk_favoritosubasta_subasta1_idx",["IdSubasta",])
 export class favoritosubasta {
 
     @Column("int",{ 

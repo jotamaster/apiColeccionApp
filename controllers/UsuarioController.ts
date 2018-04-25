@@ -32,21 +32,21 @@ export async function agregarUsuario(req, res, next){
         });
     } else {
        
-        // let email = req.body.email;
-        // let connection = getConnection();
-        // let usuario = await connection.getRepository(Entities.Usuario).findOne({
-        //     Email: email
-        // });
+        let email = req.body.email;
+        let connection = getConnection();
+        let usuarios = await connection.getRepository(Entities.usuario).findOne({
+            Email: email
+        });
 
-        // if (  usuario.Email === email) {
+        if (  usuarios.Email === email) {
             
-        //     res.status(403).json({
-        //         "success": false,
-        //         "type": "error",
-        //         "message": "Usuario ya existe "+ email +"."
-        //     });
+            res.status(403).json({
+                "success": false,
+                "type": "error",
+                "message": "Usuario ya existe "+ email +"."
+            });
 
-        // } else {
+        } else {
             let connection = getConnection();
             let cryp = new Cryptr(config.encryp_secret);
             let nuevoUsuario = new Entities.usuario();
@@ -69,7 +69,7 @@ export async function agregarUsuario(req, res, next){
                     "details": err
                 });
             }
-        //}
+        }
      
     }
     

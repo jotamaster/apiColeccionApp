@@ -1,11 +1,11 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
-import {usuario} from "./usuario";
 import {item} from "./item";
+import {usuario} from "./usuario";
 
 
 @Entity("logitem")
-@Index("fk_LogItem_Usuario1_idx",["IdUsuario",])
-@Index("fk_LogItem_Item1_idx",["IdItem",])
+@Index("fk_logitem_usuario1_idx",["IdUsuario",])
+@Index("fk_logitem_item1_idx",["IdItem",])
 export class logitem {
 
     @Column("int",{ 
@@ -18,15 +18,15 @@ export class logitem {
         
 
    
-    @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.logitems)
-    @JoinColumn({ name:'IdUsuario'})
-    IdUsuario:usuario;
-    
-
-   
     @ManyToOne(type=>item, IdItem=>IdItem.logitems)
     @JoinColumn({ name:'IdItem'})
     IdItem:item;
+    
+
+   
+    @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.logitems)
+    @JoinColumn({ name:'IdUsuario'})
+    IdUsuario:usuario;
     
 
     @Column("varchar",{ 
@@ -47,7 +47,6 @@ export class logitem {
 
     @Column("timestamp",{ 
         nullable:true,
-        default:"CURRENT_TIMESTAMP",
         name:"Fecha"
         })
     Fecha:Date;

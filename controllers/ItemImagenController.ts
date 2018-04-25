@@ -1,12 +1,12 @@
 import * as Entities from "../models/Index";
 import {getConnection} from "typeorm"; 
 import config from "../config/main";
-import { monedaimagen } from "../models/monedaimagen";
+import { itemimagen } from "../models/itemimagen";
  
 export async function getAll(req, res, next) { 
 
     let connection = getConnection();
-      let monedaimagen = await connection.getRepository(Entities.monedaimagen).find();
+      let monedaimagen = await connection.getRepository(Entities.itemimagen).find();
  
     if ( monedaimagen.length > 0 ) {
         res.status(200).json(  monedaimagen  );
@@ -17,7 +17,7 @@ export async function getAll(req, res, next) {
 export async function getOne(req, res, next ) {
     const id = req.params.id;
     let connection = getConnection();
-    let monedaimagen =  await connection.getRepository(Entities.monedaimagen).find({Id:id});
+    let monedaimagen =  await connection.getRepository(Entities.itemimagen).find({Id:id});
     
     if ( monedaimagen.length > 0 ) {
         res.status(200).json(  monedaimagen );

@@ -6,11 +6,12 @@ import {puja} from "./puja";
 
 
 @Entity("subasta")
-@Index("fk_Subasta_Usuario1_idx",["IdVendedor",])
-@Index("fk_Usuario_Subasta_idx",["IdComprador",])
+@Index("fk_subasta_usuario1_idx",["IdComprador",])
+@Index("fk_subasta_usuario2_idx",["Idvendedor",])
 export class subasta {
 
     @Column("int",{ 
+        generated:true,
         nullable:false,
         primary:true,
         name:"Id"
@@ -19,15 +20,15 @@ export class subasta {
         
 
    
-    @ManyToOne(type=>usuario, IdVendedor=>IdVendedor.subastas)
-    @JoinColumn({ name:'IdVendedor'})
-    IdVendedor:usuario;
+    @ManyToOne(type=>usuario, IdComprador=>IdComprador.subastas)
+    @JoinColumn({ name:'IdComprador'})
+    IdComprador:usuario;
     
 
    
-    @ManyToOne(type=>usuario, IdComprador=>IdComprador.subastas2)
-    @JoinColumn({ name:'IdComprador'})
-    IdComprador:usuario;
+    @ManyToOne(type=>usuario, Idvendedor=>Idvendedor.subastas2)
+    @JoinColumn({ name:'Idvendedor'})
+    Idvendedor:usuario;
     
 
     @Column("varchar",{ 
@@ -38,18 +39,18 @@ export class subasta {
     Nombre:string;
         
 
-    @Column("time",{ 
+    @Column("date",{ 
         nullable:true,
         name:"HoraInicio"
         })
     HoraInicio:string;
         
 
-    @Column("time",{ 
+    @Column("date",{ 
         nullable:true,
-        name:"Horatermino"
+        name:"HoraTermino"
         })
-    Horatermino:string;
+    HoraTermino:string;
         
 
     @Column("int",{ 

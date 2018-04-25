@@ -1,12 +1,12 @@
 import * as Entities from "../models/Index";
 import {getConnection} from "typeorm"; 
 import config from "../config/main";
-import { favoritomoneda } from "../models/favoritomoneda";
+import { favoritoitem } from "../models/favoritoitem";
  
 export async function getAll(req, res, next) { 
 
     let connection = getConnection();
-      let favoritomoneda = await connection.getRepository(Entities.favoritomoneda).find();
+      let favoritomoneda = await connection.getRepository(Entities.favoritoitem).find();
  
     if ( favoritomoneda.length > 0 ) {
         res.status(200).json(  favoritomoneda  );
@@ -17,7 +17,7 @@ export async function getAll(req, res, next) {
 export async function getOne(req, res, next ) {
     const id = req.params.id;
     let connection = getConnection();
-    let favoritomoneda =  await connection.getRepository(Entities.favoritomoneda).find({Id:id});
+    let favoritomoneda =  await connection.getRepository(Entities.favoritoitem).find({Id:id});
     
     if ( favoritomoneda.length > 0 ) {
         res.status(200).json(  favoritomoneda );

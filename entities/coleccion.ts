@@ -5,22 +5,17 @@ import {item} from "./item";
 
 
 @Entity("coleccion")
-@Index("fk_Album_Usuario_idx",["IdUsuario",])
+@Index("fk_coleccion_usuario_idx",["IdUsuario",])
 export class coleccion {
 
     @Column("int",{ 
+        generated:true,
         nullable:false,
         primary:true,
         name:"Id"
         })
     Id:number;
         
-
-   
-    @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.coleccions)
-    @JoinColumn({ name:'IdUsuario'})
-    IdUsuario:usuario;
-    
 
     @Column("varchar",{ 
         nullable:true,
@@ -60,6 +55,12 @@ export class coleccion {
         })
     Tipo:string;
         
+
+   
+    @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.coleccions)
+    @JoinColumn({ name:'IdUsuario'})
+    IdUsuario:usuario;
+    
 
    
     @OneToMany(type=>favoritocoleccion, favoritocoleccions=>favoritocoleccions.IdColeccion)

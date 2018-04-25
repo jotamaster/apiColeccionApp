@@ -1,14 +1,15 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
-import {item} from "./item";
 import {venta} from "./venta";
+import {item} from "./item";
 
 
 @Entity("loteventa")
-@Index("fk_LoteVenta_MONEDAS1_idx",["IdMoneda",])
-@Index("fk_LoteVenta_VENTA1_idx",["IdVenta",])
+@Index("fk_loteventa_venta1_idx",["IdVenta",])
+@Index("fk_loteventa_item1_idx",["item_Id",])
 export class loteventa {
 
     @Column("int",{ 
+        generated:true,
         nullable:false,
         primary:true,
         name:"Id"
@@ -17,14 +18,14 @@ export class loteventa {
         
 
    
-    @ManyToOne(type=>item, IdMoneda=>IdMoneda.loteventas)
-    @JoinColumn({ name:'IdMoneda'})
-    IdMoneda:item;
-    
-
-   
     @ManyToOne(type=>venta, IdVenta=>IdVenta.loteventas)
     @JoinColumn({ name:'IdVenta'})
     IdVenta:venta;
+    
+
+   
+    @ManyToOne(type=>item, item_Id=>item_Id.loteventas)
+    @JoinColumn({ name:'item_Id'})
+    item_Id:item;
     
 }

@@ -3,8 +3,8 @@ import {usuario} from "./usuario";
 
 
 @Entity("amistad")
-@Index("FK_USUARIO_AMIGO_idx",["IdAmigo",])
-@Index("FK_AMIGO_USUARIO_idx",["IdUsuario",])
+@Index("fk_amistad_usuario1_idx",["IdUsuario",])
+@Index("fk_amistad_usuario2_idx",["IdAmigo",])
 export class amistad {
 
     @Column("int",{ 
@@ -17,15 +17,15 @@ export class amistad {
         
 
    
-    @ManyToOne(type=>usuario, IdAmigo=>IdAmigo.amistads2)
-    @JoinColumn({ name:'IdAmigo'})
-    IdAmigo:usuario;
-    
-
-   
     @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.amistads)
     @JoinColumn({ name:'IdUsuario'})
     IdUsuario:usuario;
+    
+
+   
+    @ManyToOne(type=>usuario, IdAmigo=>IdAmigo.amistads2)
+    @JoinColumn({ name:'IdAmigo'})
+    IdAmigo:usuario;
     
 
     @Column("int",{ 

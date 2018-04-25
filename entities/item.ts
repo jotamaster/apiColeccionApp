@@ -1,17 +1,18 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
 import {coleccion} from "./coleccion";
-import {favoritomoneda} from "./favoritomoneda";
+import {favoritoitem} from "./favoritoitem";
+import {itemimagen} from "./itemimagen";
 import {logitem} from "./logitem";
 import {lotesubasta} from "./lotesubasta";
 import {loteventa} from "./loteventa";
-import {monedaimagen} from "./monedaimagen";
 
 
 @Entity("item")
-@Index("fk_Moneda_Album1_idx",["IdColeccion",])
+@Index("fk_item_coleccion1_idx",["IdColeccion",])
 export class item {
 
     @Column("int",{ 
+        generated:true,
         nullable:false,
         primary:true,
         name:"Id"
@@ -31,6 +32,14 @@ export class item {
         name:"Nombre"
         })
     Nombre:string;
+        
+
+    @Column("varchar",{ 
+        nullable:true,
+        length:45,
+        name:"itemcol"
+        })
+    itemcol:string;
         
 
     @Column("int",{ 
@@ -91,9 +100,9 @@ export class item {
     @Column("varchar",{ 
         nullable:true,
         length:45,
-        name:"TipoNomimal"
+        name:"TipoNominal"
         })
-    TipoNomimal:string;
+    TipoNominal:string;
         
 
     @Column("varchar",{ 
@@ -115,7 +124,7 @@ export class item {
 
     @Column("varchar",{ 
         nullable:true,
-        length:45,
+        length:80,
         name:"Leyenda"
         })
     Leyenda:string;
@@ -162,9 +171,9 @@ export class item {
 
     @Column("int",{ 
         nullable:true,
-        name:"Valorisacion"
+        name:"Valorizacion"
         })
-    Valorisacion:number;
+    Valorizacion:number;
         
 
     @Column("int",{ 
@@ -209,14 +218,19 @@ export class item {
         nullable:true,
         precision:5,
         scale:0,
-        name:"PorcentajeEstado"
+        name:"PorsentajeEstado"
         })
-    PorcentajeEstado:number;
+    PorsentajeEstado:number;
         
 
    
-    @OneToMany(type=>favoritomoneda, favoritomonedas=>favoritomonedas.Idmonedas)
-    favoritomonedas:favoritomoneda[];
+    @OneToMany(type=>favoritoitem, favoritoitems=>favoritoitems.IdItem)
+    favoritoitems:favoritoitem[];
+    
+
+   
+    @OneToMany(type=>itemimagen, itemimagens=>itemimagens.IdItem)
+    itemimagens:itemimagen[];
     
 
    
@@ -225,17 +239,12 @@ export class item {
     
 
    
-    @OneToMany(type=>lotesubasta, lotesubastas=>lotesubastas.IdMoneda)
+    @OneToMany(type=>lotesubasta, lotesubastas=>lotesubastas.IdItem)
     lotesubastas:lotesubasta[];
     
 
    
-    @OneToMany(type=>loteventa, loteventas=>loteventas.IdMoneda)
+    @OneToMany(type=>loteventa, loteventas=>loteventas.item_Id)
     loteventas:loteventa[];
-    
-
-   
-    @OneToMany(type=>monedaimagen, monedaimagens=>monedaimagens.IdMoneda)
-    monedaimagens:monedaimagen[];
     
 }

@@ -4,8 +4,8 @@ import {coleccion} from "./coleccion";
 
 
 @Entity("favoritocoleccion")
-@Index("fk_FavoritoColeccion_Usuario1_idx",["IdUsuario",])
-@Index("fk_FavoritoColeccion_Coleccion1_idx",["IdColeccion",])
+@Index("fk_favoritocoleccion_usuario1_idx",["IdUsuario",])
+@Index("fk_favoritocoleccion_coleccion1_idx",["IdColeccion",])
 export class favoritocoleccion {
 
     @Column("int",{ 

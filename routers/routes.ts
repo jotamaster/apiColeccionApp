@@ -8,8 +8,8 @@ import * as loteventaCtrl from "../controllers/LoteVentaController";  //importas
 import * as amistadCtrl from "../controllers/AmistadController";  //importas controllador para llamar a funciones
 import * as coleccionCtrl from "../controllers/ColeccionController";  //importas controllador para llamar a funciones
 import * as favoritocoleccionCtrl from "../controllers/FavoritoColeccionController";  //importas controllador para llamar a funciones
-import * as favoritomonedaCtrl from "../controllers/FavoritoMonedaController";  //importas controllador para llamar a funciones
-import * as monedaimagenCtrl from "../controllers/MonedaImagenController";  //importas controllador para llamar a funciones
+import * as favoritomonedaCtrl from "../controllers/FavoritoItemController";  //importas controllador para llamar a funciones
+import * as monedaimagenCtrl from "../controllers/ItemImagenController";  //importas controllador para llamar a funciones
 import * as pujaCtrl from "../controllers/PujaController";  //importas controllador para llamar a funciones
 import * as subastaCtrl from "../controllers/SubastaController";  //importas controllador para llamar a funciones
 import * as usuarioCtrl from "../controllers/UsuarioController";  //importas controllador para llamar a funciones

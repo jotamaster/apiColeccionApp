@@ -4,8 +4,8 @@ import {loteventa} from "./loteventa";
 
 
 @Entity("venta")
-@Index("fk_Venta_Usuario1_idx",["IdComprador",])
-@Index("fk_Venta_Usuario2_idx",["IdVendedor",])
+@Index("fk_venta_usuario1_idx",["IdComprador",])
+@Index("fk_venta_usuario2_idx",["IdVendedor",])
 export class venta {
 
     @Column("int",{ 
@@ -16,6 +16,18 @@ export class venta {
         })
     Id:number;
         
+
+   
+    @ManyToOne(type=>usuario, IdComprador=>IdComprador.ventas)
+    @JoinColumn({ name:'IdComprador'})
+    IdComprador:usuario;
+    
+
+   
+    @ManyToOne(type=>usuario, IdVendedor=>IdVendedor.ventas2)
+    @JoinColumn({ name:'IdVendedor'})
+    IdVendedor:usuario;
+    
 
     @Column("varchar",{ 
         nullable:true,
@@ -39,18 +51,6 @@ export class venta {
         })
     Descripcion:string;
         
-
-   
-    @ManyToOne(type=>usuario, IdComprador=>IdComprador.ventas)
-    @JoinColumn({ name:'IdComprador'})
-    IdComprador:usuario;
-    
-
-   
-    @ManyToOne(type=>usuario, IdVendedor=>IdVendedor.ventas2)
-    @JoinColumn({ name:'IdVendedor'})
-    IdVendedor:usuario;
-    
 
    
     @OneToMany(type=>loteventa, loteventas=>loteventas.IdVenta)
