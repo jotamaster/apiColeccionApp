@@ -1,4 +1,4 @@
-import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable ,PrimaryGeneratedColumn} from "typeorm";
 import {amistad} from "./amistad";
 import {coleccion} from "./coleccion";
 import {favoritocoleccion} from "./favoritocoleccion";
@@ -13,12 +13,8 @@ import {venta} from "./venta";
 @Entity("usuario")
 export class usuario {
 
-    @Column("int",{ 
-        generated:true,
-        nullable:false,
-        primary:true,
-        name:"Id"
-        })
+   
+    @PrimaryGeneratedColumn()
     Id:number;
         
 
@@ -69,9 +65,10 @@ export class usuario {
     Ciudad:string;
         
 
-    @Column("date",{ 
+    @Column("datetime",{ 
         nullable:true,
-        name:"InicioHobby"
+        name:"InicioHobby",
+        default: () => "CURRENT_TIMESTAMP"
         })
     InicioHobby:string;
         

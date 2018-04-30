@@ -21,35 +21,34 @@ export async function getAll(req, res, next) {
 }
 //--------------------------------------------------------------------------------
 
-export async function agregarUsuario(req, res, next){
-  
+export async function agregarUsuario(req, res, next) {
 
-    if (!req.body.email || !req.body.clave || req.body.clave === '' || req.body.email === '' || req.body.nombre === '' ||req.body.apellido === ''||!req.body.nombre ||!req.body.apellido ) {
-        res.status(403).json({
-            "success": false,
-            "type": "error",
-            "message": "Debe ingresar todos los campos"
-        });
-    } else {
-       
-        let email = req.body.email;
-        let connection = getConnection();
-        let usuarios = await connection.getRepository(Entities.usuario).findOne({
+    const email = await req.body.email;
+   console.log(email)
+    try {
+        const connection = await getConnection();
+        const usuarios = await connection.getRepository(Entities.usuario).findOne({
             Email: email
         });
-
-        if (  usuarios.Email === email) {
-            
+        console.log(usuarios)
+        if (!req.body.email || !req.body.clave || req.body.clave === '' || req.body.email === '' ||
+            req.body.nombre === '' || req.body.apellido === '' || !req.body.nombre || !req.body.apellido) //verifico que vengan todos los campos
+        {
             res.status(403).json({
                 "success": false,
                 "type": "error",
-                "message": "Usuario ya existe "+ email +"."
+                "message": "Debe ingresar todos los campos"
             });
-
-        } else {
-            let connection = getConnection();
-            let cryp = new Cryptr(config.encryp_secret);
-            let nuevoUsuario = new Entities.usuario();
+        } else if (usuarios ) { // si el email existe genera la respuesta que el usuario existe, y de hecho lo hace sin problemas cuando entra en este else if
+            // pero cuando se mandan todos los campos y un correo nuevo queda la api colgada por esperar una promesa  y marca el "usuario.Email de la linea 44"
+            // como undefined 
+            res.status(403).json({  
+                "success": false,
+                "type": "error",
+                "message": "Usuario ya existe " + email + "."
+            });
+        } else { // le lo contrario que guarde el usuario
+            let nuevoUsuario = new usuario();
             nuevoUsuario.Nombre = req.body.nombre;
             nuevoUsuario.Apellido = req.body.apellido;
             nuevoUsuario.Clave = req.body.clave;
@@ -58,23 +57,17 @@ export async function agregarUsuario(req, res, next){
             nuevoUsuario.Ciudad = req.body.ciudad;
             nuevoUsuario.InicioHobby = req.body.iniciohobby;
             nuevoUsuario.TipoColeccionista = req.body.tipocoleccionista;
-            try {
-                await connection.getRepository(usuario).save(nuevoUsuario);
+           await connection.getRepository(usuario).save(nuevoUsuario);
                 res.status(200).json({
-                    "success": "Usuario agregado con exito  !"
-                });
-            } catch (err) {
-                res.status(500).json({
-                    "error": "No se pudo agregar al usuario",
-                    "details": err
-                });
-            }
+                    "success": "Usuario agregado con dexito  !"
+           });
         }
-     
+    }catch(err){
+        res.status(500).json({
+            "error": "No se pudo agregar al usuario",
+            "details": err.message
+        });
     }
-    
-
-   
 }
 export async function authenticateUser(req, res, next) {
 
@@ -106,17 +99,19 @@ export async function authenticateUser(req, res, next) {
            } else {
                const payload = {
                    sub: usuario.Email,
+                   id: usuario.Id,
                    aud: config.jwtOptions.aud,
                    iss: config.jwtOptions.iss,
                    iat: moment().unix(),
                    exp: moment().add(14, "days").unix()
                }
+              
                res.status(200).json({
                    "success": true,
                    "type": "success",
-                   access_token: jwt.encode(payload, config.encryp_secret),
+                   access_token:  jwt.encode(payload, config.encryp_secret),
                    "name":usuario.Nombre,
-                   "email": usuario.Email
+                   "email": usuario.Email,
                });
            }
        }

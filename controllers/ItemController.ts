@@ -2,6 +2,7 @@ import * as Entities from "../models/Index";
 import {getConnection} from "typeorm"; 
 import config from "../config/main";
 import { item } from "../models/item";
+import * as jwt from "jwt-simple";
  
 export async function getAll(req, res, next) { 
 
@@ -26,8 +27,18 @@ export async function getOne(req, res, next ) {
     }
 }
 export async function create(req, res, next ) {
+    let connection = getConnection();
+    let nuevaColeccion = new Entities.coleccion();
+    nuevaColeccion.Nombre = req.body.nombre;
+    nuevaColeccion.Detalle = req.body.detalle;
+    nuevaColeccion.Fotos   = req.body.fotos;
+    nuevaColeccion.Tipo    = req.body.tipo;
+    nuevaColeccion.IdUsuario = await connection.getRepository(Entities.usuario).findOne({Id:idusuario});
 
-await res.status(200).json({"success": "creaste un item"});
+    await connection.getRepository(Entities.coleccion).save(nuevaColeccion);
+                res.status(200).json({
+                    "success": "Coleccion agregado con dexito  !"
+           });
 
 }
 

@@ -1,4 +1,4 @@
-import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, PrimaryGeneratedColumn} from "typeorm";
 import {usuario} from "./usuario";
 import {favoritosubasta} from "./favoritosubasta";
 import {lotesubasta} from "./lotesubasta";
@@ -10,12 +10,8 @@ import {puja} from "./puja";
 @Index("fk_subasta_usuario2_idx",["Idvendedor",])
 export class subasta {
 
-    @Column("int",{ 
-        generated:true,
-        nullable:false,
-        primary:true,
-        name:"Id"
-        })
+
+    @PrimaryGeneratedColumn()
     Id:number;
         
 

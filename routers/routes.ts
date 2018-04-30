@@ -42,7 +42,8 @@ export default (app) => {
     // profesorRoutes.put("/:rut",  profeCtrl.update); 
     // // esta linea crea un moddleware el cual crea la ruta /profesor y embebe los verbos y rutas que asignamos a clienteRoute
     // apiRoutes.use("/profesor", profesorRoutes);
-    coleccionRoutes.get("/",coleccionCtrl.getAll);
+    coleccionRoutes.get("/",authorization.authorize(),coleccionCtrl.getAll);
+    coleccionRoutes.post("/",authorization.authorize(),coleccionCtrl.create);
     apiRoutes.use("/colecciones",coleccionRoutes);
 
     // esta linea crea un moddleware el cual crea la ruta /usuario y embebe los verbos y rutas que asignamos a clienteRoute

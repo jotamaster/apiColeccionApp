@@ -1,4 +1,4 @@
-import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable ,PrimaryGeneratedColumn} from "typeorm";
 import {usuario} from "./usuario";
 import {item} from "./item";
 
@@ -8,14 +8,8 @@ import {item} from "./item";
 @Index("fk_favoritoitem_item1_idx",["IdItem",])
 export class favoritoitem {
 
-    @Column("int",{ 
-        generated:true,
-        nullable:false,
-        primary:true,
-        name:"Id"
-        })
+    @PrimaryGeneratedColumn()
     Id:number;
-        
 
    
     @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.favoritoitems)

@@ -1,4 +1,4 @@
-import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable , PrimaryGeneratedColumn} from "typeorm";
 import {item} from "./item";
 import {usuario} from "./usuario";
 
@@ -8,12 +8,8 @@ import {usuario} from "./usuario";
 @Index("fk_logitem_item1_idx",["IdItem",])
 export class logitem {
 
-    @Column("int",{ 
-        generated:true,
-        nullable:false,
-        primary:true,
-        name:"Id"
-        })
+
+    @PrimaryGeneratedColumn()
     Id:number;
         
 
@@ -47,7 +43,8 @@ export class logitem {
 
     @Column("timestamp",{ 
         nullable:true,
-        name:"Fecha"
+        name:"Fecha",
+        default: () => "CURRENT_TIMESTAMP"
         })
     Fecha:Date;
         

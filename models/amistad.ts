@@ -1,4 +1,4 @@
-import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, PrimaryGeneratedColumn} from "typeorm";
 import {usuario} from "./usuario";
 
 
@@ -7,14 +7,9 @@ import {usuario} from "./usuario";
 @Index("fk_amistad_usuario2_idx",["IdAmigo",])
 export class amistad {
 
-    @Column("int",{ 
-        generated:true,
-        nullable:false,
-        primary:true,
-        name:"Id"
-        })
+  
+    @PrimaryGeneratedColumn()
     Id:number;
-        
 
    
     @ManyToOne(type=>usuario, IdUsuario=>IdUsuario.amistads)
@@ -35,16 +30,18 @@ export class amistad {
     Estado:number;
         
 
-    @Column("date",{ 
+    @Column("datetime",{ 
         nullable:true,
-        name:"Inicio"
+        name:"Inicio",
+        default: () => "CURRENT_TIMESTAMP"
         })
     Inicio:string;
         
 
-    @Column("date",{ 
+    @Column("datetime",{ 
         nullable:true,
-        name:"Termino"
+        name:"Termino",
+        default: () => "CURRENT_TIMESTAMP"
         })
     Termino:string;
         

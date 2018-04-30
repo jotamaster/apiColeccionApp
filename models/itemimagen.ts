@@ -1,4 +1,4 @@
-import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable , PrimaryGeneratedColumn} from "typeorm";
 import {item} from "./item";
 
 
@@ -6,14 +6,9 @@ import {item} from "./item";
 @Index("fk_monedaimagen_item1_idx",["IdItem",])
 export class itemimagen {
 
-    @Column("int",{ 
-        generated:true,
-        nullable:false,
-        primary:true,
-        name:"Id"
-        })
+ 
+    @PrimaryGeneratedColumn()
     Id:number;
-        
 
    
     @ManyToOne(type=>item, IdItem=>IdItem.itemimagens)
@@ -37,9 +32,10 @@ export class itemimagen {
     Ruta:string;
         
 
-    @Column("date",{ 
+    @Column("datetime",{ 
         nullable:true,
-        name:"Fecha"
+        name:"Fecha",
+        default: () => "CURRENT_TIMESTAMP"
         })
     Fecha:string;
         

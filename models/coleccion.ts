@@ -1,19 +1,14 @@
-import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable ,PrimaryGeneratedColumn} from "typeorm";
 import {usuario} from "./usuario";
 import {favoritocoleccion} from "./favoritocoleccion";
 import {item} from "./item";
 
 
 @Entity("coleccion")
-@Index("fk_coleccion_usuario_idx",["IdUsuario",])
+@Index("fk_coleccion_usuario_idx",["IdUsuario"])
 export class coleccion {
 
-    @Column("int",{ 
-        generated:true,
-        nullable:false,
-        primary:true,
-        name:"Id"
-        })
+    @PrimaryGeneratedColumn()
     Id:number;
         
 
@@ -41,9 +36,10 @@ export class coleccion {
     Fotos:string;
         
 
-    @Column("date",{ 
+    @Column("datetime",{ 
         nullable:true,
-        name:"FechaCreacion"
+        name:"FechaCreacion",
+        default: () => "CURRENT_TIMESTAMP"
         })
     FechaCreacion:string;
         
