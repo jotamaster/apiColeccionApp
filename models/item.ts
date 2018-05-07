@@ -29,12 +29,6 @@ export class item {
     Nombre:string;
         
 
-    @Column("varchar",{ 
-        nullable:true,
-        length:45,
-        name:"itemcol"
-        })
-    itemcol:string;
         
 
     @Column("int",{ 

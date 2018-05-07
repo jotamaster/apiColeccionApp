@@ -2,6 +2,19 @@ import * as Entities from "../models/Index";
 import {getConnection} from "typeorm"; 
 import config from "../config/main";
 import { itemimagen } from "../models/itemimagen";
+const multer  = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null,  Date.now() + '-'+ file.originalname)
+    }
+  })
+  
+  const upload = multer({ storage: storage });
+
  
 export async function getAll(req, res, next) { 
 
@@ -26,8 +39,17 @@ export async function getOne(req, res, next ) {
     }
 }
 export async function create(req, res, next ) {
-
-await res.status(200).json({"success": "creaste un moneda imagen"});
+    let connection = getConnection();
+    let nuevoItemImagen = new Entities.itemimagen();
+    nuevoItemImagen.Nombre = req.body.nombre;
+    nuevoItemImagen.Ruta = req.body.ruta;
+    nuevoItemImagen.Descripcion    = req.body.descripcion;
+    nuevoItemImagen.IdItem = await connection.getRepository(Entities.item).findOne({Id:1});
+    
+    await connection.getRepository(Entities.itemimagen).save(nuevoItemImagen);
+                res.status(200).json({
+                    "success": "Coleccion agregado con dexito  !"
+           });
 
 }
 
