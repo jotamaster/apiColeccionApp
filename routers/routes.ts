@@ -1,4 +1,16 @@
 import * as express from "express"; // el routing neceista del servidor express
+const multer  = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null,  Date.now() + '-'+ file.originalname)
+    }
+  })
+  
+  const upload = multer({ storage: storage })
 
 import * as itemCtrl from "../controllers/ItemController";  //importas controllador para llamar a funciones
 import * as logitemCtrl from "../controllers/LogItemController";  //importas controllador para llamar a funciones
@@ -15,7 +27,6 @@ import * as usuarioCtrl from "../controllers/UsuarioController";  //importas con
 import * as ventaCtrl from "../controllers/VentaController";  //importas controllador para llamar a funciones
 import * as authorization from '../middlewares/autorizacion'
 import { itemimagen } from "../entities/itemimagen";
-import upload from "../models/itemimagen";
 // exportamos la funcion que utiliza posteriormeente el archivo init.ts para iniciar el encapsulamiento de
 // retun controller --> retorna route( app )
 export default (app) => { 

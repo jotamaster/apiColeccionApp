@@ -38,17 +38,18 @@ export async function getOne(req, res, next ) {
         res.status(404).json( { "error" : "monedaimagen no encontrado" } );
     }
 }
-export async function create(req, res, next ) {
+export async function create(req, res, next) {
     let connection = getConnection();
     let nuevoItemImagen = new Entities.itemimagen();
     nuevoItemImagen.Nombre = req.body.nombre;
-    nuevoItemImagen.Ruta = req.body.ruta;
+    nuevoItemImagen.Ruta =  req.file.path;
+    console.log(req.file);
     nuevoItemImagen.Descripcion    = req.body.descripcion;
     nuevoItemImagen.IdItem = await connection.getRepository(Entities.item).findOne({Id:1});
     
     await connection.getRepository(Entities.itemimagen).save(nuevoItemImagen);
                 res.status(200).json({
-                    "success": "Coleccion agregado con dexito  !"
+                    "success": "Imagen agregado con exito!"
            });
 
 }
