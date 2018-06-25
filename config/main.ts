@@ -1,6 +1,6 @@
 const config  = {
     // server port
-    port : 3002,
+    port : 3004,
     encryp_secret : "secretomaximoenelmundo",
     //jwt claims
     jwtOptions : {
@@ -15,8 +15,8 @@ const config  = {
                 host: "127.0.0.1",
                 port: 3306,
                 username: "root",
-                password: "",
-                database: "dbcolect"
+                password: "coleccion123",
+                database: "dbcolec"
             },
             prd: ""
         }

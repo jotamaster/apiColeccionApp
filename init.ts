@@ -15,7 +15,7 @@ createConnection({
     host: "localhost",
     port: 3306,
     username: "root",
-    password: "",
+    password: "coleccion123",
     database: "dbcolec",
     entities: [
         Entities.coleccion,

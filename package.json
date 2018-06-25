@@ -30,7 +30,6 @@
     "typescript": "^2.6.2"
   },
   "devDependencies": {
-    "@types/jwt-simple": "^0.5.33",
-    "nodemon": "^1.14.10"
+    "@types/jwt-simple": "^0.5.33"
   }
 }
