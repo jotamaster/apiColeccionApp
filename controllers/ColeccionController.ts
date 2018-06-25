@@ -18,6 +18,24 @@ export async function getAll(req, res, next) {
     }
 }
 
+export async function getAllUser(req, res, next) { 
+    let token =  req.headers.authorization.split(" ")[1];
+    let payload = await jwt.decode(token, config.encryp_secret);
+    let connection = getConnection();
+    let coleccion = await connection.getRepository(Entities.coleccion)
+                                    .createQueryBuilder("c")
+                                    .where(`c.IdUsuario = ${payload.id}`)
+                                    .getMany();
+
+    
+ 
+    if ( coleccion != null ) {
+        res.status(200).json(  coleccion  );
+    }else{  
+        res.status(500).json( { "error" : "No tiene coleccion :c" } );
+    }
+}
+
 
 export async function getOne(req, res, next ) {
     const id = req.params.id;

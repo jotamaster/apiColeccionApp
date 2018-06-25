@@ -112,6 +112,7 @@ export async function authenticateUser(req, res, next) {
                    access_token:  jwt.encode(payload, config.encryp_secret),
                    "name":usuario.Nombre,
                    "email": usuario.Email,
+                   "idUser": usuario.Id
                });
            }
        }
